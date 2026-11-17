@@ -115,31 +115,17 @@ public class EmployeeManager {
 
         } else if (args[0].startsWith("c")) {
 
-            // Count words
+            // Count words in employee data
             System.out.println("Loading data ...");
 
             try {
-                char[] characters =
-                    readEmployeeData().toCharArray();
+                String employeeData = readEmployeeData().trim();
 
-                boolean insideWord = false;
-                int wordCount = 0;
+                int wordCount = employeeData.isEmpty()
+                        ? 0
+                        : employeeData.split("\\s+").length;
 
-                for (char character : characters) {
-
-                    if (character == ' ') {
-
-                        if (!insideWord) {
-                            wordCount++;
-                            insideWord = true;
-                        } else {
-                            insideWord = false;
-                        }
-                    }
-                }
-
-                System.out.println(wordCount + " word(s) found "
-                    + characters.length);
+                System.out.println(wordCount + " word(s) found.");
 
             } catch (IOException exception) {
                 System.out.println("Error counting words.");
