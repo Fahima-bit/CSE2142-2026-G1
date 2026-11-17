@@ -1,10 +1,11 @@
 
+
 import java.io.*;
 import java.util.*;
 
 public class EmployeeManager {
 
-    // Method for reading employee data from file
+    // Method for reading employee data
     public static String readEmployeeData() throws IOException {
         BufferedReader reader = new BufferedReader(
             new FileReader(Constants.EMPLOYEE_FILE));
@@ -15,7 +16,7 @@ public class EmployeeManager {
         return employeeData;
     }
 
-    // Method for writing employee data to file
+    // Method for writing employee data
     public static void writeEmployeeData(String employeeData)
             throws IOException {
 
@@ -28,7 +29,7 @@ public class EmployeeManager {
 
     public static void main(String[] args) {
 
-        // Check the number of arguments
+        // Check number of arguments
         if (args.length != 1) {
             System.out.println("Please provide exactly one argument.");
             return;
@@ -40,10 +41,7 @@ public class EmployeeManager {
             System.out.println("Loading data ...");
 
             try {
-            
-                String[] employees = readEmployeeData().split(",");
-
-                for (String employee : employees) {
+                for (String employee : readEmployeeData().split(",")) {
                     System.out.println(employee);
                 }
 
@@ -55,14 +53,11 @@ public class EmployeeManager {
 
         } else if (args[0].equals("s")) {
 
-            // Select a random employee
+            // Select random employee
             System.out.println("Loading data ...");
 
             try {
-                String employeeData = readEmployeeData();
-                System.out.println(employeeData);
-
-                String[] employees = employeeData.split(",");
+                String[] employees = readEmployeeData().split(",");
 
                 Random random = new Random();
                 int randomIndex = random.nextInt(employees.length);
@@ -75,16 +70,14 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].contains("+")) {
+        } else if (args[0].startsWith("+")) {
 
-            // Add a new employee
+            // Add employee
             System.out.println("Loading data ...");
 
             try {
-                String employeeName = args[0].substring(1);
-                String employeeData = readEmployeeData();
-
-                writeEmployeeData(employeeData + ", " + employeeName);
+                writeEmployeeData(
+                    readEmployeeData() + ", " + args[0].substring(1));
 
             } catch (IOException exception) {
                 System.out.println("Error adding employee.");
@@ -92,26 +85,26 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].contains("?")) {
+        } else if (args[0].startsWith("?")) {
 
-            // Search for an employee
+            // Search employee
             System.out.println("Loading data ...");
 
             try {
-               
                 String[] employees = readEmployeeData().split(",");
-
-                boolean employeeFound = false;
                 String searchName = args[0].substring(1);
 
-                for (int index = 0;
-                     index < employees.length && !employeeFound;
-                     index++) {
+                int index = 0;
 
-                    if (employees[index].trim().equals(searchName)) {
-                        System.out.println("Employee found!");
-                        employeeFound = true;
-                    }
+                while (index < employees.length &&
+                       !employees[index].trim().equals(searchName)) {
+                    index++;
+                }
+
+                if (index < employees.length) {
+                    System.out.println("Employee found!");
+                } else {
+                    System.out.println("Employee not found!");
                 }
 
             } catch (IOException exception) {
@@ -120,14 +113,14 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].contains("c")) {
+        } else if (args[0].startsWith("c")) {
 
-            // Count words in employee data
+            // Count words
             System.out.println("Loading data ...");
 
             try {
-                String employeeData = readEmployeeData();
-                char[] characters = employeeData.toCharArray();
+                char[] characters =
+                    readEmployeeData().toCharArray();
 
                 boolean insideWord = false;
                 int wordCount = 0;
@@ -139,14 +132,14 @@ public class EmployeeManager {
                         if (!insideWord) {
                             wordCount++;
                             insideWord = true;
-
                         } else {
                             insideWord = false;
                         }
                     }
                 }
 
-                System.out.println(wordCount + " word(s) found " + characters.length);
+                System.out.println(wordCount + " word(s) found "
+                    + characters.length);
 
             } catch (IOException exception) {
                 System.out.println("Error counting words.");
@@ -154,13 +147,12 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].contains("u")) {
+        } else if (args[0].startsWith("u")) {
 
-            // Update an employee
+            // Update employee
             System.out.println("Loading data ...");
 
             try {
-               
                 String[] employees = readEmployeeData().split(",");
                 String employeeName = args[0].substring(1);
 
@@ -179,14 +171,13 @@ public class EmployeeManager {
 
             System.out.println("Data Updated.");
 
-        } else if (args[0].contains("d")) {
+        } else if (args[0].startsWith("d")) {
 
-            // Delete an employee
+            // Delete employee
             System.out.println("Loading data ...");
 
             try {
-                String employeeData = readEmployeeData();
-                String[] employees = employeeData.split(",");
+                String[] employees = readEmployeeData().split(",");
                 String employeeName = args[0].substring(1);
 
                 List<String> employeeList =
