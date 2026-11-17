@@ -1,7 +1,6 @@
 //File Name EmployeeManager.java
 import java.io.*;
 import java.util.*;
-
 public class EmployeeManager {
     public static void main(String[] args) {
         // Check arguments
