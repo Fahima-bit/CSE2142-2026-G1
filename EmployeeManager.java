@@ -7,7 +7,7 @@ public class EmployeeManager {
     // Method for reading employee data from file
     public static String readEmployeeData() throws IOException {
         BufferedReader reader = new BufferedReader(
-            new FileReader("employees.txt"));
+            new FileReader(Constants.EMPLOYEE_FILE));
 
         String employeeData = reader.readLine();
         reader.close();
@@ -20,7 +20,7 @@ public class EmployeeManager {
             throws IOException {
 
         BufferedWriter writer = new BufferedWriter(
-            new FileWriter("employees.txt"));
+            new FileWriter(Constants.EMPLOYEE_FILE));
 
         writer.write(employeeData);
         writer.close();
