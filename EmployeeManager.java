@@ -1,5 +1,6 @@
 
 
+
 import java.io.*;
 import java.util.*;
 
@@ -35,8 +36,17 @@ public class EmployeeManager {
             return;
         }
 
+        // Store the command-line argument
+        String command = args[0];
+
+        // Check for empty argument
+        if (command.trim().isEmpty()) {
+            System.out.println("Invalid argument!");
+            return;
+        }
+
         // Load employee data
-        if (args[0].equals("l")) {
+        if (command.equals("l")) {
 
             System.out.println("Loading data ...");
 
@@ -51,7 +61,7 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].equals("s")) {
+        } else if (command.equals("s")) {
 
             // Select random employee
             System.out.println("Loading data ...");
@@ -70,14 +80,19 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].startsWith("+")) {
+        } else if (command.startsWith("+")) {
 
             // Add employee
+            if (command.length() == 1) {
+                System.out.println("Please provide an employee name.");
+                return;
+            }
+
             System.out.println("Loading data ...");
 
             try {
                 writeEmployeeData(
-                    readEmployeeData() + ", " + args[0].substring(1));
+                    readEmployeeData() + ", " + command.substring(1));
 
             } catch (IOException exception) {
                 System.out.println("Error adding employee.");
@@ -85,14 +100,19 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].startsWith("?")) {
+        } else if (command.startsWith("?")) {
 
             // Search employee
+            if (command.length() == 1) {
+                System.out.println("Please provide an employee name.");
+                return;
+            }
+
             System.out.println("Loading data ...");
 
             try {
                 String[] employees = readEmployeeData().split(",");
-                String searchName = args[0].substring(1);
+                String searchName = command.substring(1);
 
                 int index = 0;
 
@@ -113,7 +133,7 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].startsWith("c")) {
+        } else if (command.startsWith("c")) {
 
             // Count words in employee data
             System.out.println("Loading data ...");
@@ -133,14 +153,19 @@ public class EmployeeManager {
 
             System.out.println("Data Loaded.");
 
-        } else if (args[0].startsWith("u")) {
+        } else if (command.startsWith("u")) {
 
             // Update employee
+            if (command.length() == 1) {
+                System.out.println("Please provide an employee name.");
+                return;
+            }
+
             System.out.println("Loading data ...");
 
             try {
                 String[] employees = readEmployeeData().split(",");
-                String employeeName = args[0].substring(1);
+                String employeeName = command.substring(1);
 
                 for (int index = 0; index < employees.length; index++) {
 
@@ -157,14 +182,19 @@ public class EmployeeManager {
 
             System.out.println("Data Updated.");
 
-        } else if (args[0].startsWith("d")) {
+        } else if (command.startsWith("d")) {
 
             // Delete employee
+            if (command.length() == 1) {
+                System.out.println("Please provide an employee name.");
+                return;
+            }
+
             System.out.println("Loading data ...");
 
             try {
                 String[] employees = readEmployeeData().split(",");
-                String employeeName = args[0].substring(1);
+                String employeeName = command.substring(1);
 
                 List<String> employeeList =
                     new ArrayList<>(Arrays.asList(employees));
@@ -178,6 +208,14 @@ public class EmployeeManager {
             }
 
             System.out.println("Data Deleted.");
+
+        } else {
+
+            // Handle invalid command-line arguments
+            System.out.println("Invalid argument: " + command);
+
+            System.out.println(
+                "Use l, s, +name, ?name, c, uname, or dname.");
         }
     }
 }
