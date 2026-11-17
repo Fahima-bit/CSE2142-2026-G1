@@ -5,8 +5,12 @@ import java.util.*;
 
 public class EmployeeManager {
     public static void main(String[] args) {
-
-        // Check arguments
+        // Check the number of arguments
+if (args.length != 1) {
+    System.out.println("Please provide exactly one argument.");
+    return;
+}
+ // Check arguments
 if (args[0].equals("l")) {
 
 System.out.println("Loading data ...");
